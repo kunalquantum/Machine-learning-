@@ -1,0 +1,107 @@
+1.DATA AQUISATIIOB 
+(DATA GATHERING ) : a) data cleaining : prerossing
+(here we will save on;i te eanted)
+libraries : numpy , pandas
+
+2. 
+data is classified into :
+x, y
+
+x : questions (features )
+y: indepedent variable
+
+3. divide the data into training and testing data:
+(90:10) 
+-Xtrain 80%
+-Ytrain 80%
+
+xtest 20%
+ytest @20%
+
+4.
+model selection
+(choose machine learining alogruthm model)
+ calling the model 
+sklearn 
+-xtrain
+-ytrain
+
+5 model accuracy (tast- xtext)
+  yash will give answers wil store in y_pred variable 
+  we will compare
+  y_pred == ytest
+ if theaccracy is up to the  mark
+ else
+ repeat the step 4 with some changes 
+
+6. if the model is passes the accurracy test 
+we will go for the model deployment 
+
+
+import pandas as pd #importing pandas for creating a table for the dataset given
+df=pd.read_csv('USA_Housing.csv') #df variable stores the data readed through the function read_csv() method of pandas
+df.head()# variable.head() this method will top 5 data and its features by default however , we can manupulutae the no of data   
+
+df.info() #variable.info() is the function used to get the infromation about each features and its content (indexing )
+
+#variable['atribute_name'] this is the syntax for choosing the [particular feature and working ]
+df['Address'].nunique() #nunique() is function returns the unique data (or differnce amoung the data)
+
+since the uniquesness of the address feature is 5000 out of 5000 so we can say that there cant be any categories made with the help of this feature so we can drop the feature 
+
+df.drop('Address',axis=1,inplace=True)#variable.drop('feature',axis(this is neccesry for selecting row or colowm by default the axis is zero which means row , however we need to covert it into colomn by taking the one))
+#inplace is the set to be true for permanent removal of the feature if it is not set true then the content will not be deleted 
+
+df.info()
+
+to check wheather the drop functionhas done the deletion function or not we have used the info()
+
+
+
+
+df.info()
+
+data cleaning step done now we will move towards data seggregation
+
+
+X=df.drop('Price',axis=1)
+y=df['Price']
+
+here we have sepreted the data into x and y variable (data splitting step)
+
+#sklearn is very import library for machine learning 
+
+from sklearn.model_selection import train_test_split #importing train_test_split from model_selection from sklearn 
+x_train,x_test,y_train,y_test=train_test_split(X,y,test_size=0.2) #here we are splitting the data in training and testing variables with respect to ratio (test_size=0.2(80:20))
+
+
+
+#as the prize range are continouse data therefore we are using linear regression 
+from sklearn.linear_model import LinearRegression #importing linear regression from linear model from sklearn
+mdl=LinearRegression() #storing the LinearRegression () in mdl variable
+
+
+mdl.fit(x_train,y_train) #Applying fit(Var1(input),var2(output)) to mdl 
+
+pred=mdl.predict(x_test) #pred variable will store the predictions returned by predict method() applied to mdl
+
+pred #we callled pred to see what it stores
+
+import matplotlib.pyplot as plt #importing submodule pyplot from  matplotlib with refernce plt 
+plt.scatter(pred,y_test) #using the scatter(predicted ,actual output)
+
+as the grapgh return shows the overlapping that means the values predicted is precise 
+
+mdl.score(x_test,y_test)  #variable.score returns the score or the nearness of predicted value to the actual value
+
+mdl.coef_ #variable.coef_ will return the y intercept coeficinet 
+
+mdl.predict([[63345.22,7.1,5.5,3.26,34310.24]])
+
+import pickle # importing pickle for deployment
+with open('kunal','wb') as file:  #open('filename',operation (write or read))funtion takes two variable  
+  pickle.dump(mdl,file) #applying dump function for the dumping the files 
+
+DEPLOYMENT OF THE MODEL CREATED 
+
+deployment of the file
